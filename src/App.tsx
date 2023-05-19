@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import ToDoList from "./components/ToDoList";
+import { useAppSelector } from "./hooks";
+import { selectToDoList } from "./toDoSlice";
+import ToDoInput from "./components/ToDoInput";
 
 function App() {
+  const toDoList = useAppSelector(selectToDoList);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main>
+      <header>
+        <h1>To Do List</h1>
       </header>
-    </div>
+      <section>
+        {toDoList.length ? <ToDoList list={toDoList} /> : <p>No list yet!</p>}
+      </section>
+      <section>
+        <ToDoInput />
+      </section>
+    </main>
   );
 }
 
