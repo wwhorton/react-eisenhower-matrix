@@ -3,7 +3,13 @@ import { IToDoItem, IToDoState } from "./interfaces";
 import { RootState } from "./store";
 
 const initialState: IToDoState = {
-  todos: [],
+  todos: [
+    { id: 1, text: "Sample text one" },
+    { id: 2, text: "Sample text two" },
+    { id: 3, text: "Sample text three" },
+    { id: 4, text: "Sample text four" },
+    { id: 5, text: "Sample text five" },
+  ],
 };
 
 export const toDoSlice = createSlice({
@@ -22,10 +28,25 @@ export const toDoSlice = createSlice({
           item.id !== action.payload.id && item.text !== action.payload.text
       );
     },
+    insertToDo: (
+      state,
+      action: PayloadAction<{ item: IToDoItem; location: number }>
+    ): void => {
+      state.todos = state.todos.filter(
+        (item) =>
+          item.id !== action.payload.item.id &&
+          item.text !== action.payload.item.text
+      );
+      state.todos = [
+        ...state.todos.slice(0, action.payload.location - 1),
+        action.payload.item,
+        ...state.todos.slice(action.payload.location - 1),
+      ];
+    },
   },
 });
 
-export const { addToDo, removeToDo } = toDoSlice.actions;
+export const { addToDo, removeToDo, insertToDo } = toDoSlice.actions;
 export const selectToDoList = (state: RootState) => state.toDoList.todos;
 
 export default toDoSlice.reducer;

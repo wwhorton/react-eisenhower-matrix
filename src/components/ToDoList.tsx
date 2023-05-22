@@ -1,29 +1,38 @@
 import ToDoItem from "./ToDoItem";
-import { IToDoList } from "../interfaces";
+import { IToDoItem, IToDoList } from "../interfaces";
+import { useAppDispatch } from "../hooks";
+import { insertToDo } from "../toDoSlice";
 
 const ToDoList = ({ list }: IToDoList) => {
-  const handleDragOver = (event: React.DragEvent<HTMLElement>): void => {
-    console.log(`Drag Over: ${event}`);
+  const dispatch = useAppDispatch();
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.preventDefault();
   };
-  const handleDragEnter = (event: React.DragEvent<HTMLElement>): void => {
-    console.log(`Drag Enter: ${event}`);
+  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.preventDefault();
   };
-  const handleDragLeave = (event: React.DragEvent<HTMLElement>): void => {
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>): void => {
     console.log(`Drag Leave: ${event}`);
   };
-  const handleDrop = (event: React.DragEvent<HTMLElement>): void => {
-    console.log(`Drop: ${event}`);
+  const handleDrop = (
+    event: React.DragEvent<HTMLDivElement>,
+    item: IToDoItem,
+    location: number
+  ): void => {
+    event.preventDefault();
+    dispatch(insertToDo({ item, location }));
   };
   return (
     <ul>
-      {list.map((item) => {
+      {list.map((item, index) => {
         return (
           <div
             className="list-slot"
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
+            onDrop={(event) => handleDrop(event, item, index)}
+            key={index}
           >
             <ToDoItem id={item.id} text={item.text} key={item.id} />
           </div>
