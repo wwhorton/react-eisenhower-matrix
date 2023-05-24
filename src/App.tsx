@@ -4,6 +4,7 @@ import ToDoList from "./components/ToDoList";
 import { useAppSelector } from "./hooks";
 import { selectToDoList } from "./toDoSlice";
 import ToDoInput from "./components/ToDoInput";
+import Matrix from "./components/Matrix";
 
 function App() {
   const toDoList = useAppSelector(selectToDoList);
@@ -19,6 +20,7 @@ function App() {
       <section>
         <ToDoInput />
       </section>
+      <Matrix />
     </main>
   );
 }
